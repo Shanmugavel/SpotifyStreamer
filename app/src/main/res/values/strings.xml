@@ -1,4 +1,12 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">Spotify Streamer</string>
-    <string name="action_settings">Settings</string>
+
+    <!-- Default Texts -->
+    <string name="hint_search_artist">Type an Artist Name to Search</string>
+    <string name="hint_artist_name">Artist Name</string>
+    <string name="hint_artist_image">Artist</string>
+
+    <!-- Error Messages -->
+    <string name="err_no_artists_found">No matching Artists found. Please refine your search criteria.</string>
 </resources>
