@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/imgArtist"
         android:layout_toEndOf="@+id/imgArtist"
-         />
+        android:layout_marginLeft="10dp" />
 
 
 </RelativeLayout>
