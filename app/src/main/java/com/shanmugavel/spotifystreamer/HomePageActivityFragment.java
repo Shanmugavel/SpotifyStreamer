@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class HomePageActivityFragment extends Fragment {
     private static final String LOG_TAG = HomePageActivityFragment.class.getName();
     private SpotifyApi mSpotifyApi = null;
     private SpotifyService mSpotifySvc = null;
+    private ArrayAdapter<Artist> mLstArtists = null;
+
     public HomePageActivityFragment() {
 
     }
@@ -40,6 +44,7 @@ public class HomePageActivityFragment extends Fragment {
         Log.i(LOG_TAG, "Inside onCreate");
         mSpotifyApi = new SpotifyApi();
         mSpotifySvc = mSpotifyApi.getService();
+        mLstArtists = new ArrayAdapter<Artist>(getActivity(), R.layout.single_artist);
     }
 
     @Override
@@ -68,6 +73,7 @@ public class HomePageActivityFragment extends Fragment {
         return rootView;
     }
 
+
     public class FetchArtistsTask extends AsyncTask<String, Void, Void> {
         private final String LOG_TAG = FetchArtistsTask.class.getName();
 
@@ -92,8 +98,22 @@ public class HomePageActivityFragment extends Fragment {
                     List<Artist> lstArtists = artistsPager.artists.items;
                     Log.i(LOG_TAG, "Size::" + lstArtists.size());
                     if (lstArtists.size() > 0) {
-                        Log.i(LOG_TAG, lstArtists.get(0).toString());
-                        Log.i(LOG_TAG, lstArtists.get(0).name);
+                        Log.i(LOG_TAG, "Got Matching Records!!!");
+                        if (null != mLstArtists) {
+                            mLstArtists.clear();
+                            mLstArtists.addAll(lstArtists);
+                            Log.i(LOG_TAG, "Added Records in Adapter!!!");
+                        }
+                    } else {
+                        mLstArtists.clear();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i(LOG_TAG, "Inside Handler Thread!");
+                                Toast.makeText(getActivity(), "No matching Artists found. Please refine your search criteria.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                     }
                 }
 
