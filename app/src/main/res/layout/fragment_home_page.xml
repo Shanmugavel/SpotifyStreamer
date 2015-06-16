@@ -7,15 +7,17 @@
     tools:context=".HomePageActivityFragment">
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtSearchArtist"
         android:singleLine="true"
-        android:hint="@string/hint_search_artist" />
+        android:hint="@string/hint_search_artist"
+        android:layout_margin="5dp" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lstArtists" />
+        android:id="@+id/lstArtists"
+        android:layout_margin="5dp" />
 
 </LinearLayout>

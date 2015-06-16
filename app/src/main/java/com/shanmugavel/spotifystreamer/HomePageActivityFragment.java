@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -76,6 +77,13 @@ public class HomePageActivityFragment extends Fragment {
 
         ListView lstArtistsView = (ListView) rootView.findViewById(R.id.lstArtists);
         lstArtistsView.setAdapter(mArtistsAdapter);
+        lstArtistsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Artist artist = (Artist) parent.getAdapter().getItem(position);
+                Toast.makeText(getActivity(),artist.name , Toast.LENGTH_LONG).show();
+            }
+        });
         return rootView;
     }
 

@@ -44,7 +44,7 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
         Log.i(LOG_TAG, "Image Count::" + artist.images.size());
         if (imgCnt != 0) {
             imgCnt--;
-            Picasso.with(getContext()).load(artist.images.get(imgCnt).url).placeholder(R.drawable.ic_loading).into(artistImg);//.resize(64, 64).into(artistImg);
+            Picasso.with(getContext()).load(artist.images.get(imgCnt).url).placeholder(R.drawable.ic_loading).error(R.drawable.ic_error).into(artistImg);
         } else {
             Log.i(LOG_TAG, "No images found!");
             Picasso.with(getContext()).load(R.drawable.ic_error).resize(64, 64).into(artistImg);
