@@ -6,7 +6,10 @@
     <string name="hint_search_artist">Type an Artist Name to Search</string>
     <string name="hint_artist_name">Artist Name</string>
     <string name="hint_artist_image">Artist</string>
-
+    <string name="hint_album_image">Album</string>
+    <string name="hint_album_track_name">Album Name\nTrack Name</string>
     <!-- Error Messages -->
     <string name="err_no_artists_found">No matching Artists found. Please refine your search criteria.</string>
+    <string name="err_no_album_tracks_found">No Albums/Tracks found.</string>
+    <string name="title_activity_top_tracks">TopTracksActivity</string>
 </resources>

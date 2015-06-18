@@ -1,5 +1,6 @@
 package com.shanmugavel.spotifystreamer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -81,7 +82,10 @@ public class HomePageActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Artist artist = (Artist) parent.getAdapter().getItem(position);
-                Toast.makeText(getActivity(),artist.name , Toast.LENGTH_LONG).show();
+                Intent topTracksIntent = new Intent(getActivity(), TopTracksActivity.class);
+                topTracksIntent.putExtra(Constants.ARTIST_ID,artist.id);
+                startActivity(topTracksIntent);
+                //Toast.makeText(getActivity(),artist.name , Toast.LENGTH_LONG).show();
             }
         });
         return rootView;
