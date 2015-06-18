@@ -11,5 +11,5 @@
     <!-- Error Messages -->
     <string name="err_no_artists_found">No matching Artists found. Please refine your search criteria.</string>
     <string name="err_no_album_tracks_found">No Albums/Tracks found.</string>
-    <string name="title_activity_top_tracks">TopTracksActivity</string>
+    <string name="title_activity_top_tracks">Top 10 Tracks</string>
 </resources>

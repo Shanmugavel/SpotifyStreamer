@@ -5,4 +5,7 @@ package com.shanmugavel.spotifystreamer;
  */
 public final class Constants {
     public static final String ARTIST_ID = "artistId";
+    public static final String ARTIST_NAME = "artistName";
+    public static final String LINE_SEP = "line.separator";
+
 }

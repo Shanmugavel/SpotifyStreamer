@@ -84,6 +84,7 @@ public class HomePageActivityFragment extends Fragment {
                 Artist artist = (Artist) parent.getAdapter().getItem(position);
                 Intent topTracksIntent = new Intent(getActivity(), TopTracksActivity.class);
                 topTracksIntent.putExtra(Constants.ARTIST_ID,artist.id);
+                topTracksIntent.putExtra(Constants.ARTIST_NAME,artist.name);
                 startActivity(topTracksIntent);
                 //Toast.makeText(getActivity(),artist.name , Toast.LENGTH_LONG).show();
             }

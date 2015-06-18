@@ -56,7 +56,11 @@ public class TopTracksActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_top_tracks, container, false);
 
         String artistId = getActivity().getIntent().getStringExtra(Constants.ARTIST_ID);
+        String artistName = getActivity().getIntent().getStringExtra(Constants.ARTIST_NAME);
+
         Log.i(LOG_TAG, "ArtistID:"+artistId);
+        Log.i(LOG_TAG, "ArtistName:"+artistName);
+        Log.i(LOG_TAG, "ActionBar::" + getActivity().getActionBar());
         new FetchTopTracksTask().execute(artistId);
 
         ListView lstTracksView = (ListView) rootView.findViewById(R.id.lstTracks);

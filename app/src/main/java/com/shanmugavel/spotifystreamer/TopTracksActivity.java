@@ -1,7 +1,7 @@
 package com.shanmugavel.spotifystreamer;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,6 +10,7 @@ public class TopTracksActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String artistName = getIntent().getStringExtra(Constants.ARTIST_NAME);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_tracks);
     }

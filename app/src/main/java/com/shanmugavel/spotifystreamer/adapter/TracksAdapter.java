@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shanmugavel.spotifystreamer.Constants;
 import com.shanmugavel.spotifystreamer.R;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,7 @@ public class TracksAdapter extends ArrayAdapter<Track> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.top_tracks, parent, false);
         }
         TextView artistName = (TextView) convertView.findViewById(R.id.txtAlbumTrackName);
-        artistName.setText(track.album.name + System.getProperty("line.separator") +track.name);
+        artistName.setText(track.album.name + System.getProperty(Constants.LINE_SEP) +track.name);
 
         ImageView albumImg = (ImageView) convertView.findViewById(R.id.imgAlbum);
         imgCnt = track.album.images.size();
