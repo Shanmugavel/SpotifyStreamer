@@ -13,6 +13,7 @@ import com.shanmugavel.spotifystreamer.Constants;
 import com.shanmugavel.spotifystreamer.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Track;
@@ -20,7 +21,7 @@ import kaaes.spotify.webapi.android.models.Track;
 /**
  * Created by shanmugavelsundaramoorthy on 6/17/15.
  */
-public class TracksAdapter extends ArrayAdapter<Track> {
+public class TracksAdapter extends ArrayAdapter<Track > {
 
     private static final String LOG_TAG = TracksAdapter.class.getName();
 
@@ -50,5 +51,13 @@ public class TracksAdapter extends ArrayAdapter<Track> {
             Picasso.with(getContext()).load(R.drawable.ic_error).resize(64, 64).into(albumImg);
         }
         return convertView;
+    }
+
+    public List<Track> getValues() {
+        List<Track> lstTracks = new ArrayList<Track>();
+        for (int i =0; i < getCount(); i++) {
+            lstTracks.add(getItem(i));
+        }
+        return lstTracks;
     }
 }

@@ -24,6 +24,7 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.Image;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -38,7 +39,8 @@ public class HomePageActivityFragment extends Fragment {
     private SpotifyApi mSpotifyApi = null;
     private SpotifyService mSpotifySvc = null;
     private ArtistsAdapter mArtistsAdapter = null;
-
+    private String mArtistSrchString = null;
+    private boolean isDataFromCache = false;
     public HomePageActivityFragment() {
 
     }
@@ -58,6 +60,37 @@ public class HomePageActivityFragment extends Fragment {
         Log.i(LOG_TAG, "Inside onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
         EditText mTxtSearch = (EditText) rootView.findViewById(R.id.txtSearchArtist);
+        isDataFromCache = false;
+        if (null != savedInstanceState) {
+            Log.i(LOG_TAG, "Populating from savedInstance!");
+            mArtistSrchString = savedInstanceState.getString(Constants.ARTIST_SEARCH_STRING);
+            List<String> lstArtistsName = (List<String>) savedInstanceState.getStringArrayList(Constants.LST_ARTISTS_NAME);
+            List<String> lstArtistsImg = (List<String>) savedInstanceState.getStringArrayList(Constants.LST_ARTISTS_IMG);
+            List<String> lstArtistsId = (List<String>) savedInstanceState.getStringArrayList(Constants.LST_ARTISTS_ID);
+
+            List<Artist> lstArtists = new ArrayList<Artist>();
+
+            for(int i=0; i < lstArtistsName.size(); i++) {
+                Artist artist = new Artist();
+                artist.name = lstArtistsName.get(i);
+                artist.id = lstArtistsId.get(i);
+                artist.images = new ArrayList<Image>();
+                if ( !"".equals(lstArtistsImg.get(i)) ) {
+                    Image img = new Image();
+                    img.url = lstArtistsImg.get(i);
+                    artist.images.add(img);
+                }
+                lstArtists.add(artist);
+            }
+
+            mTxtSearch.setText(mArtistSrchString);
+            mArtistsAdapter.clear();
+            mArtistsAdapter.addAll(lstArtists);
+            isDataFromCache = true;
+            Log.i(LOG_TAG, lstArtistsName.toString());
+            Log.i(LOG_TAG, lstArtistsImg.toString());
+
+        }
         mTxtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,9 +103,12 @@ public class HomePageActivityFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 Log.i(LOG_TAG, "Text Changed::" + s.toString());
-                if (s.length() > 0) {
-                    new FetchArtistsTask().execute(s.toString());
+                if (s.length() > 0 && !isDataFromCache) {
+                    Log.i(LOG_TAG, "DATA Loaded!");
+                    mArtistSrchString = s.toString();
+                    new FetchArtistsTask().execute(mArtistSrchString);
                 }
+                isDataFromCache = false;
             }
         });
 
@@ -92,7 +128,18 @@ public class HomePageActivityFragment extends Fragment {
         return rootView;
     }
 
-        public void updateArtistListView(final List<Artist> lstArtists) {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(LOG_TAG, "Saving homepage fragment state!!");
+        outState.putString(Constants.ARTIST_SEARCH_STRING, mArtistSrchString);
+        outState.putStringArrayList(Constants.LST_ARTISTS_NAME, mArtistsAdapter.getArtistNames());
+        outState.putStringArrayList(Constants.LST_ARTISTS_IMG,  mArtistsAdapter.getArtistImages());
+        outState.putStringArrayList(Constants.LST_ARTISTS_ID,  mArtistsAdapter.getArtistIds());
+        Log.i(LOG_TAG, "Homepage Fragment state saved!!!");
+    }
+
+    public void updateArtistListView(final List<Artist> lstArtists) {
             Log.i(LOG_TAG, "Inside updateArtistListView.");
             if (null != mArtistsAdapter) {
                 mArtistsAdapter.clear();

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.shanmugavel.spotifystreamer.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Artist;
@@ -23,6 +24,7 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
 
 
     private static final String LOG_TAG = ArtistsAdapter.class.getName();
+
 
     public ArtistsAdapter(Context ctxt, List<Artist> lstArtists) {
         super(ctxt, R.layout.single_artist, lstArtists );
@@ -50,5 +52,34 @@ public class ArtistsAdapter extends ArrayAdapter<Artist> {
             Picasso.with(getContext()).load(R.drawable.ic_error).resize(64, 64).into(artistImg);
         }
         return convertView;
+    }
+
+
+    public ArrayList<String> getArtistNames() {
+        ArrayList<String> lstArtistsName = new ArrayList<String>();
+        for (int i =0; i < getCount(); i++) {
+            lstArtistsName.add(getItem(i).name);
+        }
+        return lstArtistsName;
+    }
+    public ArrayList<String> getArtistIds() {
+        ArrayList<String> lstArtistsId = new ArrayList<String>();
+        for (int i =0; i < getCount(); i++) {
+            lstArtistsId.add(getItem(i).id);
+        }
+        return lstArtistsId;
+    }
+    public ArrayList<String> getArtistImages() {
+        ArrayList<String> lstArtistsImg = new ArrayList<String>();
+        int imgCnt = 0;
+        for (int i =0; i < getCount(); i++) {
+            imgCnt = getItem(i).images.size();
+            if (imgCnt != 0) {
+                lstArtistsImg.add(getItem(i).images.get(imgCnt-1).url);
+            } else {
+                lstArtistsImg.add("");
+            }
+        }
+        return lstArtistsImg;
     }
 }

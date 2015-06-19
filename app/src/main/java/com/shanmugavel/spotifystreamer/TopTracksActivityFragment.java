@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.shanmugavel.spotifystreamer.adapter.TracksAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,8 @@ public class TopTracksActivityFragment extends Fragment {
     private SpotifyApi mSpotifyApi = null;
     private SpotifyService mSpotifySvc = null;
     private TracksAdapter mTracksAdapter = null;
-
+    private String artistName = null;
+    private String artistId = null;
     public TopTracksActivityFragment() {
     }
 
@@ -55,13 +57,23 @@ public class TopTracksActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_top_tracks, container, false);
 
-        String artistId = getActivity().getIntent().getStringExtra(Constants.ARTIST_ID);
-        String artistName = getActivity().getIntent().getStringExtra(Constants.ARTIST_NAME);
+        if (null == savedInstanceState) {
+            artistId = getActivity().getIntent().getStringExtra(Constants.ARTIST_ID);
+            artistName = getActivity().getIntent().getStringExtra(Constants.ARTIST_NAME);
+            new FetchTopTracksTask().execute(artistId);
+        } else {
+            Log.i(LOG_TAG, "Populating from savedInstance");
+            artistId = savedInstanceState.getString(Constants.ARTIST_ID);
+            artistName = savedInstanceState.getString(Constants.ARTIST_NAME);
+            List<Track> lstTracks =  (List<Track>) savedInstanceState.getSerializable(Constants.LST_TRACKS);
+            mTracksAdapter.clear();
+            mTracksAdapter.addAll(lstTracks);
+        }
 
-        Log.i(LOG_TAG, "ArtistID:"+artistId);
+
+        Log.i(LOG_TAG, "ArtistID:" + artistId);
         Log.i(LOG_TAG, "ArtistName:"+artistName);
-        Log.i(LOG_TAG, "ActionBar::" + getActivity().getActionBar());
-        new FetchTopTracksTask().execute(artistId);
+    ;
 
         ListView lstTracksView = (ListView) rootView.findViewById(R.id.lstTracks);
         lstTracksView.setAdapter(mTracksAdapter);
@@ -75,6 +87,13 @@ public class TopTracksActivityFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.ARTIST_ID, artistId);
+        outState.putString(Constants.ARTIST_NAME, artistName);
+        outState.putSerializable(Constants.LST_TRACKS, (Serializable) mTracksAdapter.getValues());
+    }
 
     public void updateTracksListView(final List<Track> lstTracks) {
         Log.i(LOG_TAG, "Inside updateTracksListView.");
